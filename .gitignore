@@ -252,3 +252,8 @@ $RECYCLE.BIN/
 # lab13 program
 server_basic server_process
 **/*._sobel.bmp
+
+# User added
+.idea
+cmake-build-debug
+CMakeLists.txt
