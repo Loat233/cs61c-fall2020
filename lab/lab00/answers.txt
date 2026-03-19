@@ -1,4 +1,10 @@
-1.
-2.
-3.
-4.
+1. ls -l
+2. mv
+3. chmod
+4. pwd
+5. ping -c 4 host_address
+6. grep -r "keyword" directory_path
+7. ps aux
+8. kill PID
+9. diff file1 file2
+
