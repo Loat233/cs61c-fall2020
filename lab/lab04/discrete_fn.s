@@ -76,7 +76,6 @@ main:
 # a1 is the address of the "output" array (defined above).
 # Think: why might having a1 be useful?
 f:
-    # YOUR CODE GOES HERE!
     addi a0, a0, 3
     slli a0, a0, 2 # res_ptr offset for arr_ptr
     add a0, a1, a0 # a0: res_ptr
