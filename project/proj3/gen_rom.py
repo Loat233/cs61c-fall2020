@@ -8,7 +8,7 @@ def add_inst(opcode, funct3, bit25, bit30, pcSel, regWEn, immSel, brUn,
     # bit 0: pcSel(pc + 4, alu(pc + imm))
     # bit 1: regWEn(nw, w)
     # bit 4-2: immSel(I, S, B, J, U)
-    # bit 5: brUn
+    # bit 5: brUn(sign, unsign)
     # bit 6: aSel(dataA, pc)
     # bit 7: bSel(dataB, imm)
     # bit 11-8: aluSel(aluMode)
@@ -174,7 +174,7 @@ add_inst(0x13, 0x5, 0, 0,
 add_inst(0x13, 0x5, 0, 1,
          0, 1, 0, 0,
          0, 1, 5, 0, 1,
-         0, 0)
+         0, 0, 0)
 
 # instI: ori(bit30=*, bit25=*)
 for bit25 in (0,1):
@@ -267,32 +267,32 @@ for funct3 in (0, 1, 2, 3, 4, 5, 6, 7):
 for bit25 in (0,1):
     for bit30 in (0,1):
         add_inst(0x63, 0x0, bit25, bit30,
-                 0, 0, 2, 1,
-                 0, 0, 0, 0, 1,
+                 0, 0, 2, 0,
+                 1, 1, 0, 0, 1,
                  0, 0, 1)
 
 # instB: bne(bit30=*, bit25=*)
 for bit25 in (0,1):
     for bit30 in (0,1):
         add_inst(0x63, 0x1, bit25, bit30,
-                 0, 0, 2, 1,
-                 0, 1, 0, 1, 1,
+                 0, 0, 2, 0,
+                 1, 1, 0, 0, 1,
                  0, 0, 1)
 
 # instB: blt(bit30=*, bit25=*)
 for bit25 in (0,1):
     for bit30 in (0,1):
         add_inst(0x63, 0x4, bit25, bit30,
-                 0, 0, 2, 1,
-                 0, 1, 0, 1, 1,
+                 0, 0, 2, 0,
+                 1, 1, 0, 0, 1,
                  0, 0, 1)
 
 # instB: bge(bit30=*, bit25=*)
 for bit25 in (0,1):
     for bit30 in (0,1):
         add_inst(0x63, 0x5, bit25, bit30,
-                 0, 0, 2, 1,
-                 0, 1, 0, 1, 1,
+                 0, 0, 2, 0,
+                 1, 1, 0, 0, 1,
                  0, 0, 1)
 
 # instB: bltu(bit30=*, bit25=*)
@@ -300,7 +300,7 @@ for bit25 in (0,1):
     for bit30 in (0,1):
         add_inst(0x63, 0x6, bit25, bit30,
                  0, 0, 2, 1,
-                 0, 1, 0, 1, 1,
+                 1, 1, 0, 0, 1,
                  0, 0, 1)
 
 # instB: bgeu(bit30=*, bit25=*)
@@ -308,7 +308,7 @@ for bit25 in (0,1):
     for bit30 in (0,1):
         add_inst(0x63, 0x7, bit25, bit30,
                  0, 0, 2, 1,
-                 0, 1, 0, 1, 1,
+                 1, 1, 0, 0, 1,
                  0, 0, 1)
 
 
@@ -337,6 +337,6 @@ for bit25 in (0,1):
 with open("control_logic.hex", "w") as f:
     f.write("v2.0 raw\n")
     for val in rom_data:
-        f.write(f"{val:04x}")
+        f.write(f"{val:04x}\n")
 
 print("control_logic.hex 生成成功")
