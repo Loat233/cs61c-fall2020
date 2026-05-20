@@ -322,7 +322,7 @@ for bit25 in (0,1):
                  0, 0, 0, 0, 0,
                  0, 1, 0)
 
-# instI: csrw(bit30=*, bit25=*)
+# instI: csrwi(bit30=*, bit25=*)
 for bit25 in (0,1):
     for bit30 in (0,1):
         add_inst(0x73, 0x5, bit25, bit30,
