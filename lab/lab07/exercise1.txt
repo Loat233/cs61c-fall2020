@@ -1,19 +1,19 @@
 Scenario 1
-    1.
-    2.
-    3.
+    1.Because Step Size in bytes is exactly equal to Block Size in bytes.
+    2.0.0
+    3.Step size, 2
 
 Scenario 2
-    1.
-    2.
-    3.
+    1.2
+    2.MHHH
+    3.1.0
 
 Scenario 3
-    1.
-    2.
-    3.
-    4.
-    5.
+    1.L1 0.5, L2 0, 0.5
+    2.32, 16
+    3.16
+    4.Rep count
+    5.=, =, +, =
 
 --- lines below are ignored by the AG ---
 

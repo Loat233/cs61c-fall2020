@@ -7,7 +7,7 @@ Part 1
     blocksize = 20, n = 5000: 
     blocksize = 20, n = 10000: 
 
-    Checkoff Question 1:
+    Checkoff Question 1: 
     Checkoff Question 2:
 
 Part 2
