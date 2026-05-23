@@ -19,7 +19,6 @@ void transpose_blocking(int n, int blocksize, int *dst, int *src) {
                     dst[j + i * n] = src[i + j * n];
                 }
             }
-
         }
     }
 }
