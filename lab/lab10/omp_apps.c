@@ -33,22 +33,32 @@ void v_add_naive(double* x, double* y, double* z) {
 
 // Adjacent Method
 void v_add_optimized_adjacent(double* x, double* y, double* z) {
-  // TODO: Modify this function
   // Do NOT use the `for` directive here!
   #pragma omp parallel
   {
-    for(int i=0; i<ARRAY_SIZE; i++)
+    int num_threads = omp_get_num_threads();
+    int thread_id = omp_get_thread_num();
+    for(int i = thread_id; i < ARRAY_SIZE; i += num_threads)
       z[i] = x[i] + y[i];
   }
 }
 
 // Chunks Method
 void v_add_optimized_chunks(double* x, double* y, double* z) {
-  // TODO: Modify this function
   // Do NOT use the `for` directive here!
   #pragma omp parallel
   {
-    for(int i=0; i<ARRAY_SIZE; i++)
+    int num_threads = omp_get_num_threads();
+    int thread_id = omp_get_thread_num();
+    int chunk_size = ARRAY_SIZE / num_threads;
+
+    int start_index = thread_id * chunk_size;
+    int end_index = start_index + chunk_size;
+
+    if (thread_id == num_threads - 1) {
+      end_index = ARRAY_SIZE;
+    }
+    for(int i = start_index; i < end_index; i++)
       z[i] = x[i] + y[i];
   }
 }
@@ -70,29 +80,29 @@ double dotp_naive(double* x, double* y, int arr_size) {
 
 // Manual Reduction
 double dotp_manual_optimized(double* x, double* y, int arr_size) {
-  // TODO: Modify this function
   // Do NOT use the `reduction` directive here!
   double global_sum = 0.0;
   #pragma omp parallel
   {
+    double local_sum = 0.0;
     #pragma omp for
     for (int i = 0; i < arr_size; i++)
-      #pragma omp critical
-      global_sum += x[i] * y[i];
+      local_sum += x[i] * y[i];
+
+    #pragma omp critical
+    global_sum += local_sum;
   }
   return global_sum;
 }
 
 // Reduction Keyword
 double dotp_reduction_optimized(double* x, double* y, int arr_size) {
-  // TODO: Modify this function
   // Please DO use the `reduction` directive here!
   double global_sum = 0.0;
   #pragma omp parallel
   {
-    #pragma omp for
+    #pragma omp for reduction(+: global_sum)
     for (int i = 0; i < arr_size; i++)
-      #pragma omp critical
       global_sum += x[i] * y[i];
   }
   return global_sum;
@@ -192,6 +202,7 @@ char *image_proc(const char* filename) {
 
    // To parallelize these for loops, check out scheduling policy: http://jakascorner.com/blog/2016/06/omp-for-scheduling.html
    // and omp collapse directive https://software.intel.com/en-us/articles/openmp-loop-collapse-directive
+  #pragma omp parallel for collapse(2)
    for (int i = 1; i < hgt-1; i++) {
       for (int j = 1; j < wid-1; j++) {
          sobel_filter(img.img_pixels, img_copy.img_pixels, i, j);
