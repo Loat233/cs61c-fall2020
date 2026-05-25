@@ -12,19 +12,22 @@ def flatMapFunc(document):
     """
     documentID = document[0]
     words = re.findall(r"\w+", document[1])
-    return words
+    result = []
+    for index, word in enumerate(words):
+        result.append(((str(documentID) + " " + str(word)), index))
+    return result
 
 def mapFunc(arg):
     """
     You may need to modify this code.
     """
-    return (arg, 1)
+    return arg
 
 def reduceFunc(arg1, arg2):
     """
     You may need to modify this code.
     """
-    return arg1+arg2
+    return str(arg1) + " " + str(arg2)
 
 def createIndices(file_name, output="spark-wc-out-createIndices"):
     sc = SparkContext("local[8]", "CreateIndices", conf=SparkConf().set("spark.hadoop.validateOutputSpecs", "false"))
@@ -32,7 +35,8 @@ def createIndices(file_name, output="spark-wc-out-createIndices"):
 
     indices = file.flatMap(flatMapFunc) \
                  .map(mapFunc) \
-                 .reduceByKey(reduceFunc)
+                 .reduceByKey(reduceFunc) \
+                 .sortByKey()
 
     indices.coalesce(1).saveAsTextFile(output)
 
